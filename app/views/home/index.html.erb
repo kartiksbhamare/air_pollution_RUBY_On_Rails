@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>City AQI</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    li a {
+      color: #333;
+      text-decoration: none;
+    }
+    li a:hover {
+      text-decoration: underline;
+    }
+    .aqi-button {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .aqi-good { background-color: #28a745; color: #fff; }
+    .aqi-moderate { background-color: #ffc107; color: #333; }
+    .aqi-unhealthy-sensitive { background-color: #dc3545; color: #fff; }
+    .aqi-unhealthy { background-color: #ff6b6b; color: #fff; }
+    .aqi-very-unhealthy { background-color: #6c757d; color: #fff; }
+    .aqi-hazardous { background-color: #343a40; color: #fff; }
+    .jumbotron {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .aqi-button,
+    .aqi-value-text {
+      display: block;
+      margin: 10px auto;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">City AQI Checker</h1>
+    <p class="lead">Check the Air Quality Index (AQI) of cities worldwide.</p>
+    <hr class="my-4">
+    <%= form_tag(search_path, method: "get") do %>
+      <%= text_field_tag :city, params[:city], class: "form-control", placeholder: "Enter city name" %>
+      <%= submit_tag "Search", class: "btn btn-primary mt-3" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+<% if @aqi_value.present? %>
+  <h2>Air Quality For <%= @city %>:</h2>
+  <% case @aqi_value.to_i %>
+    <% when 0..50 %>
+      <button class="aqi-button aqi-good"><%= @aqi_value %> - Good</button>
+      <p class="aqi-value-text aqi-good">Air quality is considered satisfactory, and air pollution poses little or no risk. None</p>
+    <% when 51..100 %>
+      <button class="aqi-button aqi-moderate"><%= @aqi_value %> - Moderate</button>
+      <p class="aqi-value-text aqi-moderate">Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
+    <% when 101..150 %>
+      <button class="aqi-button aqi-unhealthy-sensitive"><%= @aqi_value %> - Unhealthy for Sensitive Groups</button>
+      <p class="aqi-value-text aqi-unhealthy-sensitive">Members of sensitive groups may experience health effects. The general public is not likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
+    <% when 151..200 %>
+      <button class="aqi-button aqi-unhealthy"><%= @aqi_value %> - Unhealthy</button>
+      <p class="aqi-value-text aqi-unhealthy">Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion.</p>
+    <% when 201..300 %>
+      <button class="aqi-button aqi-very-unhealthy"><%= @aqi_value %> - Very Unhealthy</button>
+      <p class="aqi-value-text aqi-very-unhealthy">Health warnings of emergency conditions. The entire population is more likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.</p>
+    <% else %>
+      <button class="aqi-button aqi-hazardous"><%= @aqi_value %> - Hazardous</button>
+      <p class="aqi-value-text aqi-hazardous">Health alert: everyone may experience more serious health effects. Everyone should avoid all outdoor exertion.</p>
+  <% end %>
+<% elsif @cities.present? %>
+  <h2>Matching Cities:</h2>
+  <ul>
+    <% @cities.each do |city| %>
+      <li><%= link_to "#{city[:name]} (AQI: #{city[:aqi]})", search_path(city: city[:name]) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No matching cities found.</p>
+<% end %>
+</div>
+
+</body>
+</html>

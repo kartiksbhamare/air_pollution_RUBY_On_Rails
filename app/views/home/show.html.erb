@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forecast</title>
+  <!-- Include any necessary CSS -->
+</head>
+<body>
+  <div class="container">
+    <% if @forecast.present? %>
+      <h2>Forecast for <%= @city %>:</h2>
+      <table class="table" id="forecast-table">
+        <!-- Forecast table content -->
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>O3 Max</th>
+            <th>O3 Min</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @forecast['o3'].each do |data| %>
+            <tr>
+              <td><%= data['day'] %></td>
+              <td><%= data['max'] %></td>
+              <td><%= data['min'] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No forecast data available.</p>
+    <% end %>
+  </div>
+
+  <%= link_to "Generate PDF", home_generate_pdf_path(city: @city, forecast: @forecast.to_json, format: :pdf), class: "btn btn-primary" %>
+
+</body>
+</html>

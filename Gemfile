@@ -28,6 +28,10 @@ gem "jbuilder"
 
 gem 'httparty'
 
+gem 'prawn'
+gem 'prawn-table'
+
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

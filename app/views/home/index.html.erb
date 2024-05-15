@@ -58,7 +58,6 @@
 </head>
 <body>
 
-
 <div class="jumbotron">
   <div class="container">
     <h1 class="display-4">City AQI Checker</h1>
@@ -71,40 +70,59 @@
   </div>
 </div>
 
-<div class="container">
-<% if @aqi_value.present? %>
-  <h2>Air Quality For <%= @city %>:</h2>
-  <% case @aqi_value.to_i %>
-    <% when 0..50 %>
-      <button class="aqi-button aqi-good"><%= @aqi_value %> - Good</button>
-      <p class="aqi-value-text aqi-good">Air quality is considered satisfactory, and air pollution poses little or no risk. None</p>
-    <% when 51..100 %>
-      <button class="aqi-button aqi-moderate"><%= @aqi_value %> - Moderate</button>
-      <p class="aqi-value-text aqi-moderate">Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
-    <% when 101..150 %>
-      <button class="aqi-button aqi-unhealthy-sensitive"><%= @aqi_value %> - Unhealthy for Sensitive Groups</button>
-      <p class="aqi-value-text aqi-unhealthy-sensitive">Members of sensitive groups may experience health effects. The general public is not likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
-    <% when 151..200 %>
-      <button class="aqi-button aqi-unhealthy"><%= @aqi_value %> - Unhealthy</button>
-      <p class="aqi-value-text aqi-unhealthy">Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion.</p>
-    <% when 201..300 %>
-      <button class="aqi-button aqi-very-unhealthy"><%= @aqi_value %> - Very Unhealthy</button>
-      <p class="aqi-value-text aqi-very-unhealthy">Health warnings of emergency conditions. The entire population is more likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.</p>
+<div class="card text-center" style="width: 18rem; margin: 0 auto;">
+  <div class="card-body">
+    <h5 class="card-title">Air Quality</h5>
+    <% if @aqi.present? %>
+      <h6 class="card-subtitle mb-2 text-muted">For <%= @city %>:</h6>
+      <% case @aqi.to_i %>
+        <% when 0..50 %>
+          <button class="aqi-button aqi-good"><%= @aqi %> - Good</button>
+          <p class="aqi-value-text aqi-good">Air quality is considered satisfactory, and air pollution poses little or no risk. None</p>
+        <% when 51..100 %>
+          <button class="aqi-button aqi-moderate"><%= @aqi %> - Moderate</button>
+          <p class="aqi-value-text aqi-moderate">Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
+        <% when 101..150 %>
+          <button class="aqi-button aqi-unhealthy-sensitive"><%= @aqi %> - Unhealthy for Sensitive Groups</button>
+          <p class="aqi-value-text aqi-unhealthy-sensitive">Members of sensitive groups may experience health effects. The general public is not likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
+        <% when 151..200 %>
+          <button class="aqi-button aqi-unhealthy"><%= @aqi %> - Unhealthy</button>
+          <p class="aqi-value-text aqi-unhealthy">Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion.</p>
+        <% when 201..300 %>
+          <button class="aqi-button aqi-very-unhealthy"><%= @aqi %> - Very Unhealthy</button>
+          <p class="aqi-value-text aqi-very-unhealthy">Health warnings of emergency conditions. The entire population is more likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.</p>
+        <% else %>
+          <button class="aqi-button aqi-hazardous"><%= @aqi %> - Hazardous</button>
+          <p class="aqi-value-text aqi-hazardous">Health alert: everyone may experience more serious health effects. Everyone should avoid all outdoor exertion.</p>
+      <% end %>
+    <% elsif @cities.present? %>
+      <h6 class="card-subtitle mb-2 text-muted">Matching Cities:</h6>
+      <ul>
+        <% @cities.each do |city| %>
+          <li><%= link_to "#{city[:name]} (AQI: #{city[:aqi]})", search_path(city: city[:name]) %></li>
+        <% end %>
+      </ul>
     <% else %>
-      <button class="aqi-button aqi-hazardous"><%= @aqi_value %> - Hazardous</button>
-      <p class="aqi-value-text aqi-hazardous">Health alert: everyone may experience more serious health effects. Everyone should avoid all outdoor exertion.</p>
-  <% end %>
-<% elsif @cities.present? %>
-  <h2>Matching Cities:</h2>
-  <ul>
-    <% @cities.each do |city| %>
-      <li><%= link_to "#{city[:name]} (AQI: #{city[:aqi]})", search_path(city: city[:name]) %></li>
+      <p class="card-text">No matching cities found.</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>No matching cities found.</p>
-<% end %>
+  </div>
 </div>
+
+<div class="container">
+  <!-- Button to navigate to show page -->
+  <%= link_to "Show Forecast", show_path(city: @city, forecast: @forecast), class: "btn btn-primary mt-3" %>
+</div>
+
+<script>
+  function toggleForecast() {
+    var forecastTable = document.getElementById('forecastTable');
+    if (forecastTable.style.display === 'none') {
+      forecastTable.style.display = 'block';
+    } else {
+      forecastTable.style.display = 'none';
+    }
+  }
+</script>
 
 </body>
 </html>

@@ -4,13 +4,76 @@
   <title>Welcome to My Website</title>
   <style>
     body {
-      background-image: url('https://images.unsplash.com/photo-1534358594138-6955f589fa24?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-      background-size: cover;
-      background-position: center;
+      margin: auto;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: auto;
+      background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
+      animation: gradient 15s ease infinite;
+      background-size: 400% 400%;
       background-attachment: fixed;
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif; /* Adding a generic font-family */
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+
+    .wave {
+      background: rgb(255 255 255 / 25%);
+      border-radius: 1000% 1000% 0 0;
+      position: fixed;
+      width: 200%;
+      height: 12em;
+      animation: wave 10s -3s linear infinite;
+      transform: translate3d(0, 0, 0);
+      opacity: 0.8;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .wave:nth-of-type(2) {
+      bottom: -1.25em;
+      animation: wave 18s linear reverse infinite;
+      opacity: 0.8;
+    }
+
+    .wave:nth-of-type(3) {
+      bottom: -2.5em;
+      animation: wave 20s -1s reverse infinite;
+      opacity: 0.9;
+    }
+
+    @keyframes wave {
+      2% {
+        transform: translateX(1);
+      }
+
+      25% {
+        transform: translateX(-25%);
+      }
+
+      50% {
+        transform: translateX(-50%);
+      }
+
+      75% {
+        transform: translateX(-25%);
+      }
+
+      100% {
+        transform: translateX(1);
+      }
     }
 
     .center {
@@ -29,11 +92,11 @@
       text-align: center;
       font-weight: bold;
       padding: 0.7em 2em;
-      border: 3px solid #FF0072;
+      border: 3px solid black;
       border-radius: 2px;
       position: relative;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
-      color: #FF0072;
+      color: black;
       text-decoration: none;
       transition: 0.3s ease all;
       z-index: 1;
@@ -50,7 +113,7 @@
       bottom: 0;
       opacity: 0;
       content: '';
-      background-color: #FF0072;
+      background-color: black;
       z-index: -1;
     }
 
@@ -68,20 +131,18 @@
     .btn:active {
       transform: scale(0.9);
     }
-
-    /* Adjusting hover color */
-    .btn:hover {
-      background-color: transparent;
-    }
-
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Wave elements -->
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
   
     <!-- Button to go to index page -->
     <div class="center">
-      <a href="<%= index_path %>" class="btn">Go to Index Page</a>
+      <a href="<%= index_path %>" class="btn">Check weather</a>
     </div>
   </div>
 </body>

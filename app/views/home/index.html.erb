@@ -54,6 +54,122 @@
       margin: 10px auto;
       text-align: center;
     }
+
+    /* New styles for custom text input */
+    .input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .input {
+      padding: 10px;
+      height: 40px;
+      border: 2px solid #0B2447;
+      border-top: none;
+      border-bottom: none;
+      font-size: 16px;
+      background: transparent;
+      outline: none;
+      box-shadow: 7px 7px 0px 0px #0B2447;
+      transition: all 0.5s;
+    }
+    .input:focus {
+      box-shadow: none;
+      transition: all 0.5s;
+    }
+    .label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #0B2447;
+      transition: all 0.5s;
+      transform: scale(0);
+      z-index: -1;
+    }
+    .input-container .topline {
+      position: absolute;
+      content: "";
+      background-color: #0B2447;
+      width: 0%;
+      height: 2px;
+      right: 0;
+      top: 0;
+      transition: all 0.5s;
+    }
+    .input-container input[type="text"]:focus ~ .topline {
+      width: 35%;
+      transition: all 0.5s;
+    }
+    .input-container .underline {
+      position: absolute;
+      content: "";
+      background-color: #0B2447;
+      width: 0%;
+      height: 2px;
+      right: 0;
+      bottom: 0;
+      transition: all 0.5s;
+    }
+    .input-container input[type="text"]:focus ~ .underline {
+      width: 100%;
+      transition: all 0.5s;
+    }
+    .input-container input[type="text"]:focus ~ .label {
+      top: -10px;
+      transform: scale(1);
+      transition: all 0.5s;
+    }
+
+    /* Button styles */
+    .button {
+      display: inline-block;
+      width: 150px;
+      height: 50px;
+      border-radius: 10px;
+      border: 1px solid #03045e;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease-in;
+      z-index: 1;
+    }
+
+    .button::before,
+    .button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 0;
+      height: 100%;
+      transform: skew(15deg);
+      transition: all 0.5s;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .button::before {
+      left: -10px;
+      background: #240046;
+    }
+
+    .button::after {
+      right: -10px;
+      background: #5a189a;
+    }
+
+    .button:hover::before,
+    .button:hover::after {
+      width: 58%;
+    }
+
+    .button:hover span {
+      color: #e0aaff;
+      transition: 0.3s;
+    }
+
+    .button span {
+      color: #03045e;
+      font-size: 18px;
+      transition: all 0.3s ease-in;
+    }
   </style>
 </head>
 <body>
@@ -64,8 +180,15 @@
     <p class="lead">Check the Air Quality Index (AQI) of cities worldwide.</p>
     <hr class="my-4">
     <%= form_tag(search_path, method: "get") do %>
-      <%= text_field_tag :city, params[:city], class: "form-control", placeholder: "Enter city name" %>
-      <%= submit_tag "Search", class: "btn btn-primary mt-3" %>
+      <div class="input-container">
+        <%= text_field_tag :city, params[:city], class: "form-control input", placeholder: "Enter city name" %>
+        <label class="label">City</label>
+        <div class="topline"></div>
+        <div class="underline"></div>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3 button">
+        <span>Search</span>
+      </button>
     <% end %>
   </div>
 </div>
@@ -96,7 +219,8 @@
           <p class="aqi-value-text aqi-hazardous">Health alert: everyone may experience more serious health effects. Everyone should avoid all outdoor exertion.</p>
       <% end %>
     <% elsif @cities.present? %>
-      <h6 class="card-subtitle mb-2 text-muted">Matching Cities:</h6>
+      <h6 class="card-subtitle mb-2 text-muted">Matching Cities
+:</h6>
       <ul>
         <% @cities.each do |city| %>
           <li><%= link_to "#{city[:name]} (AQI: #{city[:aqi]})", search_path(city: city[:name]) %></li>
@@ -110,7 +234,9 @@
 
 <div class="container">
   <!-- Button to navigate to show page -->
-  <%= link_to "Show Forecast", show_path(city: @city, forecast: @forecast), class: "btn btn-primary mt-3" %>
+  <%= link_to show_path(city: @city, forecast: @forecast), class: "btn btn-primary mt-3 button" do %>
+    <span>Show Forecast</span>
+  <% end %>
 </div>
 
 <script>

@@ -2,14 +2,64 @@
 <html>
 <head>
   <title>Forecast</title>
-  <!-- Include any necessary CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <% if @forecast.present? %>
       <h2>Forecast for <%= @city %>:</h2>
-      <table class="table" id="forecast-table">
-        <!-- Forecast table content -->
+      <table>
         <thead>
           <tr>
             <th>Date</th>
@@ -30,9 +80,8 @@
     <% else %>
       <p>No forecast data available.</p>
     <% end %>
+
+    <%= link_to "Generate PDF", home_generate_pdf_path(city: @city, forecast: @forecast.to_json, format: :pdf), class: "btn" %>
   </div>
-
-  <%= link_to "Generate PDF", home_generate_pdf_path(city: @city, forecast: @forecast.to_json, format: :pdf), class: "btn btn-primary" %>
-
 </body>
 </html>

@@ -4,33 +4,90 @@
   <title>City AQI</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
+    @import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
+
+    * {
+      margin: 0 auto;
       padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: Raleway, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #ddd;
+    }
+
     .container {
       max-width: 800px;
-      margin: 0 auto;
+      margin: 20px auto;
       padding: 20px;
     }
-    form {
-      margin-bottom: 20px;
+
+    .card-container {
+      perspective: 50em;
+      margin: 20px;
+      &:nth-child(1) {
+        --bi: repeating-linear-gradient(30deg, #111 0 0.25em, #333 0 1em);
+      }
+      &:nth-child(2) {
+        --bi: linear-gradient(#555 5em, #0000 3em), linear-gradient(60deg, #880E4F, #1A237E);
+      }
     }
-    ul {
-      list-style: none;
-      padding: 0;
+
+    .card {
+      position: relative;
+      width: 320px;
+      padding: 3em;
+      color: #fff;
+      transform: rotateY(30deg) rotateX(15deg);
+      transform-style: preserve-3d;
+      transition: transform 1s;
+      background-color: #343a40;
+      margin: 0 auto;
+      border-radius: 10px;
     }
-    li {
-      margin-bottom: 10px;
+
+    .card:hover {
+      transform: rotateY(-30deg) rotateX(-15deg);
     }
-    li a {
-      color: #333;
-      text-decoration: none;
+
+    .layers {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      z-index: -1;
     }
-    li a:hover {
-      text-decoration: underline;
+
+    .layer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 1em;
+      background-image: var(--bi);
+      transform: translateZ(var(--tz));
+      box-shadow: 0 0 0.5em #000d inset;
+
+      @for $i from 0 to 10 {
+        &:nth-child(#{$i + 1}) {
+          --tz: #{$i * -4}px;
+        }
+      }
+
+      &:last-child {
+        box-shadow: 0 0 0.5em #000d inset, 0 0 5px #000;
+      }
     }
+
+    /* Existing styles for the AQI buttons */
     .aqi-button {
       border: none;
       padding: 10px 20px;
@@ -44,10 +101,12 @@
     .aqi-unhealthy { background-color: #ff6b6b; color: #fff; }
     .aqi-very-unhealthy { background-color: #6c757d; color: #fff; }
     .aqi-hazardous { background-color: #343a40; color: #fff; }
+
     .jumbotron {
       padding-top: 10px;
       padding-bottom: 10px;
     }
+
     .aqi-button,
     .aqi-value-text {
       display: block;
@@ -193,8 +252,8 @@
   </div>
 </div>
 
-<div class="card text-center" style="width: 18rem; margin: 0 auto;">
-  <div class="card-body">
+<div class="card-container">
+  <div class="card">
     <h5 class="card-title">Air Quality</h5>
     <% if @aqi.present? %>
       <h6 class="card-subtitle mb-2 text-muted">For <%= @city %>:</h6>
@@ -219,8 +278,7 @@
           <p class="aqi-value-text aqi-hazardous">Health alert: everyone may experience more serious health effects. Everyone should avoid all outdoor exertion.</p>
       <% end %>
     <% elsif @cities.present? %>
-      <h6 class="card-subtitle mb-2 text-muted">Matching Cities
-:</h6>
+      <h6 class="card-subtitle mb-2 text-muted">Matching Cities:</h6>
       <ul>
         <% @cities.each do |city| %>
           <li><%= link_to "#{city[:name]} (AQI: #{city[:aqi]})", search_path(city: city[:name]) %></li>
@@ -229,6 +287,18 @@
     <% else %>
       <p class="card-text">No matching cities found.</p>
     <% end %>
+    <div class="layers">
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+    </div>
   </div>
 </div>
 

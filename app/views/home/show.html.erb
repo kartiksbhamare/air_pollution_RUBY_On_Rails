@@ -17,6 +17,9 @@
       padding: 20px;
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center; /* Centering content */
+      position: relative;
+      z-index: 2; /* Ensure the container is above the background */
     }
 
     h2 {
@@ -40,22 +43,83 @@
       font-weight: bold;
     }
 
-    .btn {
+    .button {
       display: inline-block;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      border-radius: 7px;
+      border: none;
+      background: #1875FF;
+      color: white;
+      font-family: inherit;
+      text-align: center;
+      font-size: 13px;
+      box-shadow: 0px 14px 56px -11px #1875FF;
+      width: 10em;
+      padding: 1em;
+      transition: all 0.4s;
+      cursor: pointer;
+      margin: 20px 0; /* Add margin top and bottom */
     }
 
-    .btn:hover {
-      background-color: #0056b3;
+    .button span {
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      transition: 0.4s;
+    }
+
+    .button span:after {
+      content: ' for free';
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      right: -20px;
+      transition: 0.7s;
+    }
+
+    .button:hover span {
+      padding-right: 3.55em;
+    }
+
+    .button:hover span:after {
+      opacity: 1;
+      right: 0;
+    }
+
+    /* Animated background styles */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .background img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      height: 150%;
+      animation: breathe 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes breathe {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.05);
+      }
     }
   </style>
 </head>
 <body>
+  <div class="background">
+    <img src="https://images.unsplash.com/photo-1522849811436-5e4917aefca1?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background">
+  </div>
   <div class="container">
     <% if @forecast.present? %>
       <h2>Forecast for <%= @city %>:</h2>
@@ -80,8 +144,11 @@
     <% else %>
       <p>No forecast data available.</p>
     <% end %>
+    <button class="button" style="vertical-align: middle; margin: 20px auto;">
+  <%= link_to "Download", home_generate_pdf_path(city: @city, forecast: @forecast.to_json, format: :pdf), class: "btn", style: "color: inherit; text-decoration: none;" %>
+</button>
 
-    <%= link_to "Generate PDF", home_generate_pdf_path(city: @city, forecast: @forecast.to_json, format: :pdf), class: "btn" %>
   </div>
 </body>
 </html>
+

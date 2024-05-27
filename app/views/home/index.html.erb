@@ -18,230 +18,159 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      background-color: #ddd;
+      background-color: #f5f5f5;
     }
+    .btn {
+ width: 6.5em;
+ height: 2.3em;
+ margin: 0.5em;
+ background: black;
+ color: white;
+ border: none;
+ border-radius: 0.625em;
+ font-size: 20px;
+ font-weight: bold;
+ cursor: pointer;
+ position: relative;
+ z-index: 1;
+ overflow: hidden;
+}
 
+button:hover {
+ color: black;
+}
+
+button:after {
+ content: "";
+ background: blue;
+ position: absolute;
+ z-index: -1;
+ left: -20%;
+ right: -20%;
+ top: 0;
+ bottom: 0;
+ transform: skewX(-45deg) scale(0, 1);
+ transition: all 0.5s;
+}
+
+button:hover:after {
+ transform: skewX(-45deg) scale(1, 1);
+ -webkit-transition: all 0.5s;
+ transition: all 0.5s;
+}
     .container {
       max-width: 800px;
       margin: 20px auto;
       padding: 20px;
     }
 
-    .card-container {
-      perspective: 50em;
-      margin: 20px;
-      &:nth-child(1) {
-        --bi: repeating-linear-gradient(30deg, #111 0 0.25em, #333 0 1em);
-      }
-      &:nth-child(2) {
-        --bi: linear-gradient(#555 5em, #0000 3em), linear-gradient(60deg, #880E4F, #1A237E);
-      }
-    }
-
     .card {
       position: relative;
-      width: 320px;
-      padding: 3em;
-      color: #fff;
-      transform: rotateY(30deg) rotateX(15deg);
-      transform-style: preserve-3d;
-      transition: transform 1s;
-      background-color: #343a40;
-      margin: 0 auto;
-      border-radius: 10px;
-    }
-
-    .card:hover {
-      transform: rotateY(-30deg) rotateX(-15deg);
-    }
-
-    .layers {
-      position: absolute;
-      left: 0;
-      top: 0;
       width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      z-index: -1;
-    }
-
-    .layer {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 1em;
-      background-image: var(--bi);
-      transform: translateZ(var(--tz));
-      box-shadow: 0 0 0.5em #000d inset;
-
-      @for $i from 0 to 10 {
-        &:nth-child(#{$i + 1}) {
-          --tz: #{$i * -4}px;
-        }
-      }
-
-      &:last-child {
-        box-shadow: 0 0 0.5em #000d inset, 0 0 5px #000;
-      }
-    }
-
-    /* Existing styles for the AQI buttons */
-    .aqi-button {
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      padding: 20px;
+      gap: 12px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .aqi-good { background-color: #28a745; color: #fff; }
-    .aqi-moderate { background-color: #ffc107; color: #333; }
-    .aqi-unhealthy-sensitive { background-color: #dc3545; color: #fff; }
-    .aqi-unhealthy { background-color: #ff6b6b; color: #fff; }
-    .aqi-very-unhealthy { background-color: #6c757d; color: #fff; }
-    .aqi-hazardous { background-color: #343a40; color: #fff; }
-
-    .jumbotron {
-      padding-top: 10px;
-      padding-bottom: 10px;
     }
 
-    .aqi-button,
-    .aqi-value-text {
-      display: block;
-      margin: 10px auto;
-      text-align: center;
-    }
-
-    /* New styles for custom text input */
-    .input-container {
-      position: relative;
-      margin-bottom: 20px;
-    }
-    .input {
-      padding: 10px;
-      height: 40px;
-      border: 2px solid #0B2447;
-      border-top: none;
-      border-bottom: none;
-      font-size: 16px;
-      background: transparent;
-      outline: none;
-      box-shadow: 7px 7px 0px 0px #0B2447;
-      transition: all 0.5s;
-    }
-    .input:focus {
-      box-shadow: none;
-      transition: all 0.5s;
-    }
-    .label {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      color: #0B2447;
-      transition: all 0.5s;
-      transform: scale(0);
-      z-index: -1;
-    }
-    .input-container .topline {
-      position: absolute;
-      content: "";
-      background-color: #0B2447;
-      width: 0%;
-      height: 2px;
-      right: 0;
-      top: 0;
-      transition: all 0.5s;
-    }
-    .input-container input[type="text"]:focus ~ .topline {
-      width: 35%;
-      transition: all 0.5s;
-    }
-    .input-container .underline {
-      position: absolute;
-      content: "";
-      background-color: #0B2447;
-      width: 0%;
-      height: 2px;
-      right: 0;
-      bottom: 0;
-      transition: all 0.5s;
-    }
-    .input-container input[type="text"]:focus ~ .underline {
-      width: 100%;
-      transition: all 0.5s;
-    }
-    .input-container input[type="text"]:focus ~ .label {
-      top: -10px;
-      transform: scale(1);
-      transition: all 0.5s;
-    }
-
-    /* Button styles */
-    .button {
-      display: inline-block;
-      width: 150px;
-      height: 50px;
-      border-radius: 10px;
-      border: 1px solid #03045e;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.5s ease-in;
-      z-index: 1;
-    }
-
-    .button::before,
-    .button::after {
+    .card::before {
       content: '';
       position: absolute;
-      top: 0;
-      width: 0;
-      height: 100%;
-      transform: skew(15deg);
-      transition: all 0.5s;
-      overflow: hidden;
+      inset: 0;
+      left: -5px;
+      margin: auto;
+      width: calc(100% + 10px);
+      height: calc(100% + 10px);
+      border-radius: 10px;
+      background: linear-gradient(-45deg, #6a11cb 0%, #2575fc 100%);
+      z-index: -10;
+      pointer-events: none;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card::after {
+      content: "";
       z-index: -1;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #9d50bb 0%, #6e48aa 100%);
+      transform: translate3d(0, 0, 0) scale(0.95);
+      filter: blur(20px);
     }
 
-    .button::before {
-      left: -10px;
-      background: #240046;
+    .heading {
+      font-size: 24px;
+      text-transform: capitalize;
+      font-weight: 700;
+      color: #333;
     }
 
-    .button::after {
-      right: -10px;
-      background: #5a189a;
+    .card p:not(.heading) {
+      font-size: 16px;
+      color: #555;
     }
 
-    .button:hover::before,
-    .button:hover::after {
-      width: 58%;
+    .card p:last-child {
+      color: #6a11cb;
+      font-weight: 600;
     }
 
-    .button:hover span {
-      color: #e0aaff;
-      transition: 0.3s;
+    .card:hover::after {
+      filter: blur(30px);
     }
 
-    .button span {
-      color: #03045e;
-      font-size: 18px;
-      transition: all 0.3s ease-in;
+    .card:hover::before {
+      transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
     }
+
+    .card h6 {
+      color: #666;
+    }
+
+    .card .btn {
+      width: 100%;
+    }
+
+    .aqi-button {
+      background-color: #6a11cb;
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .aqi-value-text {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .cardContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
   </style>
 </head>
 <body>
 
-<div class="jumbotron">
-  <div class="container">
-    <h1 class="display-4">City AQI Checker</h1>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">AQI Checker</h1>
     <p class="lead">Check the Air Quality Index (AQI) of cities worldwide.</p>
     <hr class="my-4">
     <%= form_tag(search_path, method: "get") do %>
       <div class="input-container">
         <%= text_field_tag :city, params[:city], class: "form-control input", placeholder: "Enter city name" %>
-        <label class="label">City</label>
+       
         <div class="topline"></div>
         <div class="underline"></div>
       </div>
@@ -252,62 +181,64 @@
   </div>
 </div>
 
-<div class="card-container">
-  <div class="card">
-    <h5 class="card-title">Air Quality</h5>
-    <% if @aqi.present? %>
-      <h6 class="card-subtitle mb-2 text-muted">For <%= @city %>:</h6>
-      <% case @aqi.to_i %>
-        <% when 0..50 %>
-          <button class="aqi-button aqi-good"><%= @aqi %> - Good</button>
-          <p class="aqi-value-text aqi-good">Air quality is considered satisfactory, and air pollution poses little or no risk. None</p>
-        <% when 51..100 %>
-          <button class="aqi-button aqi-moderate"><%= @aqi %> - Moderate</button>
-          <p class="aqi-value-text aqi-moderate">Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
-        <% when 101..150 %>
-          <button class="aqi-button aqi-unhealthy-sensitive"><%= @aqi %> - Unhealthy for Sensitive Groups</button>
-          <p class="aqi-value-text aqi-unhealthy-sensitive">Members of sensitive groups may experience health effects. The general public is not likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
-        <% when 151..200 %>
-          <button class="aqi-button aqi-unhealthy"><%= @aqi %> - Unhealthy</button>
-          <p class="aqi-value-text aqi-unhealthy">Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion.</p>
-        <% when 201..300 %>
-          <button class="aqi-button aqi-very-unhealthy"><%= @aqi %> - Very Unhealthy</button>
-          <p class="aqi-value-text aqi-very-unhealthy">Health warnings of emergency conditions. The entire population is more likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.</p>
-        <% else %>
-          <button class="aqi-button aqi-hazardous"><%= @aqi %> - Hazardous</button>
-          <p class="aqi-value-text aqi-hazardous">Health alert: everyone may experience more serious health effects. Everyone should avoid all outdoor exertion.</p>
-      <% end %>
-    <% elsif @cities.present? %>
-      <h6 class="card-subtitle mb-2 text-muted">Matching Cities:</h6>
-      <ul>
-        <% @cities.each do |city| %>
-          <li><%= link_to "#{city[:name]} (AQI: #{city[:aqi]})", search_path(city: city[:name]) %></li>
+<div class="container">
+  <div class="cardContainer">
+    <div class="card">
+      <h5 class="card-title city">Air Quality</h5>
+      <% if @aqi.present? %>
+        <h6 class="card-subtitle mb-2 text-muted weather">For <%= @city %>:</h6>
+        <% case @aqi.to_i %>
+          <% when 0..50 %>
+            <button class="aqi-button aqi-good"><%= @aqi %> - Good</button>
+            <p class="aqi-value-text aqi-good">Air quality is considered satisfactory, and air pollution poses little or no risk. None</p>
+          <% when 51..100 %>
+            <button class="aqi-button aqi-moderate"><%= @aqi %> - Moderate</button>
+            <p class="aqi-value-text aqi-moderate">Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
+          <% when 101..150 %>
+            <button class="aqi-button aqi-unhealthy-sensitive"><%= @aqi %> - Unhealthy for Sensitive Groups</button>
+            <p class="aqi-value-text aqi-unhealthy-sensitive">Members of sensitive groups may experience health effects. The general public is not likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should limit prolonged outdoor exertion.</p>
+          <% when 151..200 %>
+            <button class="aqi-button aqi-unhealthy"><%= @aqi %> - Unhealthy</button>
+            <p class="aqi-value-text aqi-unhealthy">Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. Active children and adults, and people with respiratory disease, such as asthma, should avoid prolonged outdoor exertion; everyone else, especially children, should limit prolonged outdoor exertion.</p>
+          <% when 201..300 %>
+            <button class="aqi-button aqi-very-unhealthy"><%= @aqi %> - Very Unhealthy</button>
+            <p class="aqi-value-text aqi-very-unhealthy">Health warnings of emergency conditions. The entire population is more likely to be affected. Active children and adults, and people with respiratory disease, such as asthma, should avoid all outdoor exertion; everyone else, especially children, should limit outdoor exertion.</p>
+          <% else %>
+            <button class="aqi-button aqi-hazardous"><%= @aqi %> - Hazardous</button>
+            <p class="aqi-value-text aqi-hazardous">Health alert: everyone may experience more serious health effects. Everyone should avoid all outdoor exertion.</p>
         <% end %>
-      </ul>
-    <% else %>
-      <p class="card-text">No matching cities found.</p>
-    <% end %>
-    <div class="layers">
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
-      <div class="layer"></div>
+      <% elsif @cities.present? %>
+        <h6 class="card-subtitle mb-2 text-muted">Matching Cities:</h6>
+        <ul>
+          <% @cities.each do |city| %>
+            <li><%= link_to "#{city[:name]} (AQI: #{city[:aqi]})", search_path(city: city[:name]) %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="card-text">No matching cities found.</p>
+      <% end %>
+      <div class="layers">
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="container">
+  <div class="container text-center">
   <!-- Button to navigate to show page -->
   <%= link_to show_path(city: @city, forecast: @forecast), class: "btn btn-primary mt-3 button" do %>
     <span>Show Forecast</span>
   <% end %>
 </div>
+</div>
+
 
 <script>
   function toggleForecast() {
@@ -319,6 +250,5 @@
     }
   }
 </script>
-
 </body>
 </html>
